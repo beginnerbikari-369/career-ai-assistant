@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Career AI Assistant Brand Colors -->
+    <color name="primary_blue">#FF1976D2</color>
+    <color name="primary_blue_variant">#FF1565C0</color>
+    <color name="secondary_teal">#FF00ACC1</color>
+    <color name="secondary_teal_variant">#FF0097A7</color>
+    <color name="accent_green">#FF4CAF50</color>
+    <color name="accent_orange">#FFFF9800</color>
+    <color name="error_red">#FFE53935</color>
+    <color name="warning_amber">#FFFFC107</color>
+    
+    <!-- Neutral Colors -->
+    <color name="background_light">#FFFAFAFA</color>
+    <color name="background_dark">#FF121212</color>
+    <color name="surface_light">#FFFFFFFF</color>
+    <color name="surface_dark">#FF1E1E1E</color>
+    <color name="on_surface_light">#FF1C1B1F</color>
+    <color name="on_surface_dark">#FFE6E1E5</color>
+</resources>
