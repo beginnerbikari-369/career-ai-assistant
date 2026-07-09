@@ -5,6 +5,7 @@ import com.careerai.data.calendar.GoogleCalendarService
 import com.careerai.data.database.dao.CalendarDao
 import com.careerai.data.database.entities.CalendarEventEntity
 import com.careerai.domain.model.CalendarEvent
+import com.careerai.domain.model.EventCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
@@ -118,6 +119,8 @@ class CalendarRepository @Inject constructor(
                 endTime = endTime,
                 location = location,
                 isAllDay = isAllDay,
+                category = category?.name ?: EventCategory.OTHER.name,
+                color = color ?: EventCategory.OTHER.color,
                 reminderMinutes = Json.encodeToString(reminderMinutes),
                 isFromGoogleCalendar = googleEventId != null,
                 createdAt = timestamp,
@@ -272,6 +275,8 @@ private fun CalendarEventData.toEntity(userId: String): CalendarEventEntity {
         endTime = endTime,
         location = location,
         isAllDay = isAllDay,
+        category = EventCategory.OTHER.name, // Default for Google Calendar events
+        color = EventCategory.OTHER.color,
         reminderMinutes = if (reminderMinutes.isNotEmpty()) Json.encodeToString(reminderMinutes) else null,
         attendees = if (attendees.isNotEmpty()) Json.encodeToString(attendees) else null,
         recurrenceRule = recurrenceRule,

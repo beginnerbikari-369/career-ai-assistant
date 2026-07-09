@@ -133,6 +133,12 @@ dependencies {
     // Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     
+    // Lifecycle extensions
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    
+    // Material Icons Extended
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.7.0")

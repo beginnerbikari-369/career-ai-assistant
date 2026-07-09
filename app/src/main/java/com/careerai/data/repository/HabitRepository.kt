@@ -45,6 +45,7 @@ class HabitRepository @Inject constructor(
                 description = description,
                 category = category.name.lowercase(),
                 color = getDefaultColorForCategory(category),
+                icon = getDefaultIconForCategory(category),
                 frequency = frequency.name.lowercase(),
                 targetCount = targetCount,
                 duration = duration,
@@ -133,6 +134,20 @@ class HabitRepository @Inject constructor(
             HabitCategory.WELLNESS -> "#9C27B0"
             HabitCategory.CAREER -> "#F44336"
             else -> "#607D8B"
+        }
+    }
+    
+    private fun getDefaultIconForCategory(category: HabitCategory): String {
+        return when (category) {
+            HabitCategory.HEALTH -> "favorite"
+            HabitCategory.PRODUCTIVITY -> "work"
+            HabitCategory.LEARNING -> "school"
+            HabitCategory.WELLNESS -> "spa"
+            HabitCategory.CAREER -> "trending_up"
+            HabitCategory.SOCIAL -> "people"
+            HabitCategory.FINANCIAL -> "account_balance_wallet"
+            HabitCategory.CREATIVITY -> "palette"
+            HabitCategory.OTHER -> "star"
         }
     }
     

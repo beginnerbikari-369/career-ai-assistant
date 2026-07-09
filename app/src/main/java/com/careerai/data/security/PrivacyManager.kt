@@ -88,7 +88,7 @@ class PrivacyManager @Inject constructor(
     }
     
     private suspend fun deleteLocalUserData(userId: String) {
-        database.userDao().deleteAllUserGoals(userId)
+        database.goalDao().deleteAllUserGoals(userId)
         database.habitDao().deleteAllUserHabits(userId)
         database.habitDao().deleteAllUserHabitCompletions(userId)
         database.conversationDao().deleteAllUserConversations(userId)
