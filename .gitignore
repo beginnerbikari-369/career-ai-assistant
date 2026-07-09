@@ -2,6 +2,12 @@
 career-ai-web/
 node_modules/
 
+
+# Exclude duplicate documentation
+BUILD_FIXES_SUMMARY.md
+DEPLOYMENT_GUIDE.md
+CODESPACE_SETUP.md
+
 # Built application files
 *.apk
 *.aab

@@ -138,13 +138,13 @@ class CalendarRepository @Inject constructor(
         }
     }
     
-    suspend fun updateEvent(event: CalendarEvent): Result<Unit> {
+    suspend fun updateEvent(userId: String, event: CalendarEvent): Result<Unit> {
         return try {
-            val entity = event.toEntity()
+            val entity = event.toEntity(userId)
             calendarDao.updateEvent(entity)
             
             // Update in Google Calendar if it's synced
-            if (event.isFromGoogleCalendar && event.googleEventId != null) {
+            if (event.googleEventId != null) {
                 val eventData = CalendarEventData(
                     id = event.id,
                     googleEventId = event.googleEventId,
@@ -205,46 +205,8 @@ class CalendarRepository @Inject constructor(
 }
 
 // Extension functions for domain mapping
-private fun CalendarEventEntity.toDomain(): CalendarEvent {
-    val reminderList = reminderMinutes?.let {
-        try {
-            Json.decodeFromString<List<Int>>(it)
-        } catch (e: Exception) {
-            emptyList()
-        }
-    } ?: emptyList()
-    
-    val attendeeList = attendees?.let {
-        try {
-            Json.decodeFromString<List<String>>(it)
-        } catch (e: Exception) {
-            emptyList()
-        }
-    } ?: emptyList()
-    
-    return CalendarEvent(
-        id = id,
-        userId = userId,
-        googleEventId = googleEventId,
-        title = title,
-        description = description,
-        startTime = startTime,
-        endTime = endTime,
-        location = location,
-        isAllDay = isAllDay,
-        category = category,
-        color = color,
-        reminderMinutes = reminderList,
-        attendees = attendeeList,
-        recurrenceRule = recurrenceRule,
-        isFromGoogleCalendar = isFromGoogleCalendar,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-        lastSyncedAt = lastSyncedAt
-    )
-}
 
-private fun CalendarEvent.toEntity(): CalendarEventEntity {
+private fun CalendarEvent.toEntity(userId: String): CalendarEventEntity {
     return CalendarEventEntity(
         id = id,
         userId = userId,
@@ -255,15 +217,15 @@ private fun CalendarEvent.toEntity(): CalendarEventEntity {
         endTime = endTime,
         location = location,
         isAllDay = isAllDay,
-        category = category,
+        category = category.name,
         color = color,
         reminderMinutes = if (reminderMinutes.isNotEmpty()) Json.encodeToString(reminderMinutes) else null,
         attendees = if (attendees.isNotEmpty()) Json.encodeToString(attendees) else null,
         recurrenceRule = recurrenceRule,
-        isFromGoogleCalendar = isFromGoogleCalendar,
+        isFromGoogleCalendar = googleEventId != null,
         createdAt = createdAt,
         updatedAt = System.currentTimeMillis(),
-        lastSyncedAt = lastSyncedAt
+        lastSyncedAt = if (googleEventId != null) System.currentTimeMillis() else null
     )
 }
 
@@ -292,6 +254,28 @@ private fun CalendarEventData.toEntity(userId: String): CalendarEventEntity {
 
 // Extension function to convert entity to domain model
 private fun CalendarEventEntity.toDomain(): CalendarEvent {
+    val categoryEnum = try {
+        EventCategory.valueOf(category?.uppercase() ?: "OTHER")
+    } catch (e: Exception) {
+        EventCategory.OTHER
+    }
+    
+    val reminderList = reminderMinutes?.let {
+        try {
+            Json.decodeFromString<List<Int>>(it)
+        } catch (e: Exception) {
+            listOf(15)
+        }
+    } ?: listOf(15)
+    
+    val attendeeList = attendees?.let {
+        try {
+            Json.decodeFromString<List<String>>(it)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    } ?: emptyList()
+    
     return CalendarEvent(
         id = id,
         title = title,
@@ -300,12 +284,12 @@ private fun CalendarEventEntity.toDomain(): CalendarEvent {
         endTime = endTime,
         location = location ?: "",
         isAllDay = isAllDay,
-        category = EventCategory.valueOf(category?.uppercase() ?: "OTHER"),
-        color = color ?: EventCategory.OTHER.color,
-        reminderMinutes = reminderMinutes?.let { Json.decodeFromString<List<Int>>(it) } ?: listOf(15),
+        category = categoryEnum,
+        color = color ?: categoryEnum.color,
+        reminderMinutes = reminderList,
         recurrenceRule = recurrenceRule,
         isCareerRelated = category?.equals("CAREER", true) ?: false,
-        attendees = attendees?.let { Json.decodeFromString<List<String>>(it) } ?: emptyList(),
+        attendees = attendeeList,
         googleEventId = googleEventId,
         createdAt = createdAt,
         updatedAt = updatedAt
