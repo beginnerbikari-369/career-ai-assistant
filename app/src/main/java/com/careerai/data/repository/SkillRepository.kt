@@ -3,6 +3,7 @@ package com.careerai.data.repository
 import com.careerai.data.database.dao.SkillDao
 import com.careerai.data.database.entities.SkillEntity
 import com.careerai.domain.model.Skill
+import com.careerai.domain.model.SkillCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
@@ -76,29 +77,14 @@ class SkillRepository @Inject constructor(
 private fun SkillEntity.toDomain(): Skill {
     return Skill(
         id = id,
-        userId = userId,
         name = name,
         category = category,
         currentLevel = currentLevel,
         targetLevel = targetLevel,
-        description = description,
-        isCareerRelevant = isCareerRelevant,
-        priority = priority,
+        description = description ?: "",
+        isCore = isCareerRelevant,
+        lastAssessed = updatedAt,
         createdAt = createdAt,
         updatedAt = updatedAt
     )
 }
-
-data class Skill(
-    val id: String,
-    val userId: String,
-    val name: String,
-    val category: String,
-    val currentLevel: Int,
-    val targetLevel: Int,
-    val description: String?,
-    val isCareerRelevant: Boolean,
-    val priority: String,
-    val createdAt: Long,
-    val updatedAt: Long
-)

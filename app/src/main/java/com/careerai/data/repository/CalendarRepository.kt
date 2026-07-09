@@ -9,6 +9,7 @@ import com.careerai.domain.model.EventCategory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import javax.inject.Inject
@@ -79,6 +80,8 @@ class CalendarRepository @Inject constructor(
         endTime: Long,
         location: String? = null,
         isAllDay: Boolean = false,
+        category: EventCategory? = null,
+        color: String? = null,
         reminderMinutes: List<Int> = listOf(15),
         syncToGoogle: Boolean = true
     ): Result<String> {
@@ -287,24 +290,24 @@ private fun CalendarEventData.toEntity(userId: String): CalendarEventEntity {
     )
 }
 
-// Domain model for CalendarEvent
-data class CalendarEvent(
-    val id: String,
-    val userId: String,
-    val googleEventId: String? = null,
-    val title: String,
-    val description: String? = null,
-    val startTime: Long,
-    val endTime: Long,
-    val location: String? = null,
-    val isAllDay: Boolean = false,
-    val category: String? = null,
-    val color: String? = null,
-    val reminderMinutes: List<Int> = emptyList(),
-    val attendees: List<String> = emptyList(),
-    val recurrenceRule: String? = null,
-    val isFromGoogleCalendar: Boolean = false,
-    val createdAt: Long,
-    val updatedAt: Long,
-    val lastSyncedAt: Long? = null
-)
+// Extension function to convert entity to domain model
+private fun CalendarEventEntity.toDomain(): CalendarEvent {
+    return CalendarEvent(
+        id = id,
+        title = title,
+        description = description ?: "",
+        startTime = startTime,
+        endTime = endTime,
+        location = location ?: "",
+        isAllDay = isAllDay,
+        category = EventCategory.valueOf(category?.uppercase() ?: "OTHER"),
+        color = color ?: EventCategory.OTHER.color,
+        reminderMinutes = reminderMinutes?.let { Json.decodeFromString<List<Int>>(it) } ?: listOf(15),
+        recurrenceRule = recurrenceRule,
+        isCareerRelated = category?.equals("CAREER", true) ?: false,
+        attendees = attendees?.let { Json.decodeFromString<List<String>>(it) } ?: emptyList(),
+        googleEventId = googleEventId,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}

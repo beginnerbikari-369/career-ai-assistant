@@ -177,7 +177,7 @@ class CareerViewModel @Inject constructor(
 
 data class CareerUiState(
     val goals: List<Goal> = emptyList(),
-    val skills: List<com.careerai.data.repository.Skill> = emptyList(),
+    val skills: List<com.careerai.domain.model.Skill> = emptyList(),
     val goalStatistics: GoalStatistics? = null,
     val isLoading: Boolean = false,
     val error: String? = null
