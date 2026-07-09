@@ -120,6 +120,7 @@ dependencies {
     // Additional Google APIs
     implementation("com.google.api-client:google-api-client-gson:2.2.0")
     implementation("com.google.http-client:google-http-client-gson:1.43.3")
+    implementation("com.google.http-client:google-http-client:1.43.3")
     
     // Image Loading
     implementation("io.coil-kt:coil-compose:2.5.0")
