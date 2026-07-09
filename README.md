@@ -6,7 +6,7 @@
 - ✅ Replaced deprecated `AndroidHttp` with `NetHttpTransport`
 - ✅ Updated Google API client imports
 - ✅ Fixed `GsonFactory` usage
-- ✅ Added missing HTTP transport dependency
+- ✅ Added missing HTTP t![img.png](img.png)ransport dependency
 - ✅ Ready to build and run on connected device!
 
 ## 📱 **Device Connection & Testing Guide**
@@ -14,7 +14,7 @@
 ### **USB Debugging Setup:**
 1. **Enable Developer Options** on your phone:
    - Go to Settings → About Phone → Tap "Build Number" 7 times
-2. **Enable USB Debugging**:
+2. **Enable USB Deb    ugging**:
    - Go to Settings → Developer Options → Enable "USB Debugging"
 3. **Connect via USB** and authorize computer access
 
