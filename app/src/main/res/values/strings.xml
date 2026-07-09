@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Career AI Assistant</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">AI Chat</string>
+    <string name="nav_career">Career</string>
+    <string name="nav_routine">Routine</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Home Screen -->
+    <string name="greeting_morning">Good Morning!</string>
+    <string name="greeting_afternoon">Good Afternoon!</string>
+    <string name="greeting_evening">Good Evening!</string>
+    <string name="home_subtitle">Ready to achieve your goals today?</string>
+    <string name="daily_summary">Today\'s Summary</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="recent_activity">Recent Activity</string>
+    
+    <!-- Chat Screen -->
+    <string name="chat_title">AI Chat Assistant</string>
+    <string name="chat_input_hint">Type your message...</string>
+    <string name="context_general">General</string>
+    <string name="context_career">Career</string>
+    <string name="context_goals">Goals</string>
+    <string name="context_habits">Habits</string>
+    <string name="context_planning">Planning</string>
+    
+    <!-- Career Screen -->
+    <string name="career_dashboard">Career Dashboard</string>
+    <string name="current_goals">Current Goals</string>
+    <string name="skill_development">Skill Development</string>
+    <string name="job_applications">Job Applications</string>
+    <string name="active_goals">Active Goals</string>
+    <string name="completed_goals">Completed</string>
+    <string name="in_progress_goals">In Progress</string>
+    
+    <!-- Routine Screen -->
+    <string name="daily_routine">Daily Routine</string>
+    <string name="routine_subtitle">Keep up the great work!</string>
+    <string name="todays_progress">Today\'s Progress</string>
+    <string name="todays_habits">Today\'s Habits</string>
+    <string name="time_blocks">Time Blocks</string>
+    <string name="productivity_metrics">This Week\'s Metrics</string>
+    
+    <!-- Settings Screen -->
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+    <string name="ai_assistant">AI Assistant</string>
+    <string name="notifications">Notifications</string>
+    <string name="data_sync">Data &amp; Sync</string>
+    <string name="app_settings">App Settings</string>
+    <string name="sign_out">Sign Out</string>
+    
+    <!-- Common -->
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    
+    <!-- Notifications -->
+    <string name="notification_channel_reminders">Reminders</string>
+    <string name="notification_channel_habits">Habits</string>
+    <string name="notification_channel_ai_suggestions">AI Suggestions</string>
+</resources>

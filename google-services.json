@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "482469741822",
+    "project_id": "career-ai-assistant-107a6",
+    "storage_bucket": "career-ai-assistant-107a6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482469741822:android:15b95b0c9b1672d0fd91af",
+        "android_client_info": {
+          "package_name": "com.careerai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoDP2yYK8wASLFnWdHs0-LkgVch3ZpzcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

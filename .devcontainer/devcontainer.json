@@ -1,0 +1,31 @@
+{
+  "name": "Career AI Assistant - Android Development",
+  "image": "mcr.microsoft.com/devcontainers/android:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17",
+      "installGradle": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "kotlin.kotlin",
+        "ms-vscode.vscode-gradle",
+        "vscjava.vscode-java-pack",
+        "googlecloudtools.cloudcode",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-xml"
+      ]
+    }
+  },
+  "forwardPorts": [8080, 3000, 5037],
+  "postCreateCommand": "chmod +x gradlew && ./gradlew --version",
+  "remoteUser": "vscode",
+  "hostRequirements": {
+    "memory": "8gb"
+  }
+}
