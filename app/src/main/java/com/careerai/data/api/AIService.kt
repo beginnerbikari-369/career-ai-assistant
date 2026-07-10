@@ -1,17 +1,13 @@
 package com.careerai.data.api
 
-import android.content.Context
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import com.careerai.domain.model.ConversationContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AIService @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val apiKeyManager: ApiKeyManager,
     private val retrofit: Retrofit
 ) {
     
@@ -22,28 +18,12 @@ class AIService @Inject constructor(
             .create(AIApiService::class.java)
     }
     
-    private val encryptedPrefs by lazy {
-        val masterKey = MasterKey.Builder(context)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-        
-        EncryptedSharedPreferences.create(
-            context,
-            "ai_api_prefs",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-    }
-    
     fun setApiKey(apiKey: String) {
-        encryptedPrefs.edit()
-            .putString("openai_api_key", apiKey)
-            .apply()
+        apiKeyManager.setOpenAIApiKey(apiKey)
     }
     
     fun getApiKey(): String? {
-        return encryptedPrefs.getString("openai_api_key", null)
+        return apiKeyManager.getOpenAIApiKey()
     }
     
     suspend fun sendMessage(
@@ -162,7 +142,7 @@ class AIService @Inject constructor(
     }
     
     fun isApiKeyConfigured(): Boolean {
-        return !getApiKey().isNullOrBlank()
+        return apiKeyManager.isOpenAIConfigured()
     }
     
     suspend fun testConnection(): Result<Boolean> {

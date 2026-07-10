@@ -106,6 +106,57 @@ class HabitRepository @Inject constructor(
         }
     }
     
+    fun getHabitsWithStreaksFlow(userId: String): Flow<List<Habit>> {
+        return getActiveHabitsFlow(userId)
+    }
+    
+    fun getTodayCompletionsFlow(userId: String, timestamp: Long): Flow<List<HabitCompletion>> {
+        val today = dateFormat.format(Date(timestamp))
+        return habitDao.getTodayCompletionsFlow(userId, today)
+            .map { entities -> entities.map { it.toDomain() } }
+    }
+    
+    suspend fun recordHabitCompletion(
+        habitId: String,
+        date: String,
+        completedAt: Long,
+        completionCount: Int = 1,
+        duration: Int? = null,
+        notes: String? = null,
+        mood: CompletionMood? = null,
+        quality: Int? = null
+    ): Result<Unit> {
+        return try {
+            val completionId = UUID.randomUUID().toString()
+            val completion = HabitCompletionEntity(
+                id = completionId,
+                habitId = habitId,
+                date = date,
+                completedAt = completedAt,
+                completionCount = completionCount,
+                duration = duration,
+                notes = notes,
+                mood = mood?.name?.lowercase(),
+                quality = quality
+            )
+            
+            habitDao.insertHabitCompletion(completion)
+            
+            // Update habit statistics
+            val habit = habitDao.getHabitById(habitId)
+            if (habit != null) {
+                val newStreak = calculateStreak(habitId, date)
+                val newLongestStreak = maxOf(habit.longestStreak, newStreak)
+                val newTotalCompletions = habit.totalCompletions + completionCount
+                habitDao.updateHabitStats(habitId, newStreak, newLongestStreak, completedAt, newTotalCompletions)
+            }
+            
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    
     private suspend fun calculateStreak(habitId: String, currentDate: String): Int {
         // Simple streak calculation - can be enhanced
         val completions = habitDao.getHabitCompletionsInRange(
@@ -189,5 +240,19 @@ private fun HabitEntity.toDomain(): Habit {
         isActive = isActive,
         isArchived = isArchived,
         difficulty = HabitDifficulty.valueOf(difficulty.uppercase())
+    )
+}
+
+private fun HabitCompletionEntity.toDomain(): HabitCompletion {
+    return HabitCompletion(
+        id = id,
+        habitId = habitId,
+        date = date,
+        completedAt = completedAt,
+        completionCount = completionCount,
+        duration = duration,
+        notes = notes,
+        mood = mood?.let { CompletionMood.valueOf(it.uppercase()) },
+        quality = quality
     )
 }

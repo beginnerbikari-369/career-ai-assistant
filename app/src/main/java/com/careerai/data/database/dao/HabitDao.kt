@@ -41,6 +41,9 @@ interface HabitDao {
     @Query("UPDATE habits SET streakCount = :streakCount, longestStreak = :longestStreak, totalCompletions = totalCompletions + 1, updatedAt = :timestamp WHERE id = :habitId")
     suspend fun updateHabitStats(habitId: String, streakCount: Int, longestStreak: Int, timestamp: Long)
     
+    @Query("UPDATE habits SET streakCount = :streakCount, longestStreak = :longestStreak, totalCompletions = :totalCompletions, updatedAt = :timestamp WHERE id = :habitId")
+    suspend fun updateHabitStats(habitId: String, streakCount: Int, longestStreak: Int, timestamp: Long, totalCompletions: Int)
+    
     @Query("UPDATE habits SET isActive = :isActive, updatedAt = :timestamp WHERE id = :habitId")
     suspend fun updateActiveStatus(habitId: String, isActive: Boolean, timestamp: Long)
     
@@ -73,6 +76,13 @@ interface HabitDao {
         WHERE h.userId = :userId AND hc.date = :date
     """)
     suspend fun getTodayCompletionsCount(userId: String, date: String): Int
+    
+    @Query("""
+        SELECT hc.* FROM habit_completions hc
+        INNER JOIN habits h ON h.id = hc.habitId
+        WHERE h.userId = :userId AND hc.date = :date
+    """)
+    fun getTodayCompletionsFlow(userId: String, date: String): Flow<List<HabitCompletionEntity>>
     
     @Query("SELECT COUNT(*) FROM habit_completions WHERE habitId = :habitId")
     suspend fun getTotalCompletionsCount(habitId: String): Int

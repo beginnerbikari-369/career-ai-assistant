@@ -23,6 +23,20 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        
+        // Load API keys from local.properties
+        val localProperties = java.util.Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { localProperties.load(it) }
+        }
+        
+        buildConfigField("String", "OPENAI_API_KEY", "\"${localProperties.getProperty("OPENAI_API_KEY", "")}\"")
+        buildConfigField("String", "GOOGLE_CALENDAR_CLIENT_ID", "\"${localProperties.getProperty("GOOGLE_CALENDAR_CLIENT_ID", "")}\"")
+        
+        // Manifest placeholders
+        manifestPlaceholders["OPENAI_API_KEY"] = localProperties.getProperty("OPENAI_API_KEY", "")
+        manifestPlaceholders["GOOGLE_CALENDAR_CLIENT_ID"] = localProperties.getProperty("GOOGLE_CALENDAR_CLIENT_ID", "")
     }
 
     buildTypes {
@@ -43,6 +57,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.6"

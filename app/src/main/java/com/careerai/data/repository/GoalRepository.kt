@@ -46,6 +46,11 @@ class GoalRepository @Inject constructor(
             .map { entities -> entities.map { it.toDomain() } }
     }
     
+    fun getCompletedGoalsFlow(userId: String, limit: Int): Flow<List<Goal>> {
+        return goalDao.getCompletedGoalsFlow(userId)
+            .map { entities -> entities.take(limit).map { it.toDomain() } }
+    }
+    
     suspend fun createGoal(
         userId: String,
         title: String,

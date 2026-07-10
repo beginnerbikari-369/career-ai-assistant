@@ -30,6 +30,11 @@ class SkillRepository @Inject constructor(
             .map { entities -> entities.map { it.toDomain() } }
     }
     
+    fun getSkillsInDevelopmentFlow(userId: String): Flow<List<Skill>> {
+        return skillDao.getSkillsInDevelopmentFlow(userId)
+            .map { entities -> entities.map { it.toDomain() } }
+    }
+    
     suspend fun addSkill(
         userId: String,
         name: String,

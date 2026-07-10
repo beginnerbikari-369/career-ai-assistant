@@ -25,6 +25,9 @@ interface SkillDao {
     @Query("SELECT * FROM skills WHERE userId = :userId AND currentLevel < targetLevel ORDER BY priority DESC")
     fun getSkillsNeedingImprovementFlow(userId: String): Flow<List<SkillEntity>>
     
+    @Query("SELECT * FROM skills WHERE userId = :userId AND currentLevel < targetLevel ORDER BY (targetLevel - currentLevel) DESC LIMIT 10")
+    fun getSkillsInDevelopmentFlow(userId: String): Flow<List<SkillEntity>>
+    
     @Query("SELECT * FROM skills WHERE userId = :userId AND priority = :priority ORDER BY currentLevel ASC")
     fun getSkillsByPriorityFlow(userId: String, priority: String): Flow<List<SkillEntity>>
     
