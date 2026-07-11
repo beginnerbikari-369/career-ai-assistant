@@ -113,6 +113,16 @@ class CareerViewModel @Inject constructor(
         }
     }
     
+    fun deleteGoal(goalId: String) {
+        viewModelScope.launch {
+            goalRepository.deleteGoal(goalId)
+                .fold(
+                    onSuccess = { loadGoalStatistics() },
+                    onFailure = { error -> _uiState.update { it.copy(error = error.message) } }
+                )
+        }
+    }
+
     fun completeGoal(goalId: String) {
         viewModelScope.launch {
             goalRepository.completeGoal(goalId)

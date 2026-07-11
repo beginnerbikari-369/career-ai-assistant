@@ -29,7 +29,7 @@ class AIService @Inject constructor(
     suspend fun sendMessage(
         messages: List<ChatMessage>,
         context: ConversationContext = ConversationContext.GENERAL,
-        model: String = "gpt-4",
+        model: String = "gpt-4o-mini",
         maxTokens: Int? = null
     ): Result<ChatResponse> {
         return try {
@@ -153,7 +153,7 @@ class AIService @Inject constructor(
             
             val result = sendMessage(
                 messages = testMessages,
-                model = "gpt-3.5-turbo",
+                model = "gpt-4o-mini",
                 maxTokens = 10
             )
             
