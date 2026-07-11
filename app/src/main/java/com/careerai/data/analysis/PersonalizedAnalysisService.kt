@@ -94,9 +94,8 @@ class PersonalizedAnalysisService @Inject constructor(
             }}
 
             **PERFORMANCE STATS**:
-            ${goalStats?.let { 
-                "Total Goals: ${it.totalGoals}, Completed: ${it.completedGoals}, In Progress: ${it.inProgressGoals}, " +
-                "Completion Rate: ${if (it.totalGoals > 0) "${(it.completedGoals * 100 / it.totalGoals)}%" else "N/A"}"
+            ${goalStats?.let {
+            "Total Goals: ${it.totalGoals}, Completed: ${it.completedGoals}, In Progress: ${it.activeGoals}, " +                "Completion Rate: ${if (it.totalGoals > 0) "${(it.completedGoals * 100 / it.totalGoals)}%" else "N/A"}"
             } ?: "No statistics available"}
 
             Please provide:
@@ -303,7 +302,7 @@ class PersonalizedAnalysisService @Inject constructor(
         skillCount: Int
     ): String {
         return goalStats?.let { stats ->
-            "You have ${stats.inProgressGoals} goals in progress with a ${
+            "You have ${stats.activeGoals} goals in progress with a ${
                 if (stats.totalGoals > 0) "${(stats.completedGoals * 100 / stats.totalGoals)}%" else "0%"
             } completion rate, actively tracking $habitCount habits and developing $skillCount skills."
         } ?: "Building momentum with your goals, habits, and skill development."

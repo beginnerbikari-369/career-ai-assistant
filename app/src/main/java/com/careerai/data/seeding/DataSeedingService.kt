@@ -29,31 +29,28 @@ class DataSeedingService @Inject constructor(
             Result.failure(e)
         }
     }
-    
+
     private suspend fun createSampleGoals(userId: String) {
         val goals = listOf(
-            // Career Goals
-            Triple("Learn React Native", "Master React Native development for mobile apps", GoalCategory.SKILL to Priority.HIGH to GoalType.LONG_TERM),
-            Triple("Complete AWS Certification", "Pass AWS Cloud Practitioner exam", GoalCategory.CAREER to Priority.HIGH to GoalType.SHORT_TERM),
-            Triple("Improve Public Speaking", "Join Toastmasters and give 5 speeches", GoalCategory.PERSONAL to Priority.MEDIUM to GoalType.LONG_TERM),
-            Triple("Network with 5 professionals", "Connect with industry professionals on LinkedIn", GoalCategory.CAREER to Priority.MEDIUM to GoalType.SHORT_TERM),
-            
-            // Personal Goals
-            Triple("Read 12 books this year", "Read one book per month to expand knowledge", GoalCategory.EDUCATION to Priority.MEDIUM to GoalType.YEARLY),
-            Triple("Complete a side project", "Build and deploy a personal web application", GoalCategory.SKILL to Priority.HIGH to GoalType.LONG_TERM),
-            Triple("Learn a new language", "Achieve conversational level in Spanish", GoalCategory.EDUCATION to Priority.LOW to GoalType.LONG_TERM),
-            Triple("Save $5000 for emergency fund", "Build financial security with emergency savings", GoalCategory.FINANCIAL to Priority.HIGH to GoalType.LONG_TERM)
+            Triple("Learn React Native", "Master React Native development for mobile apps", Triple(GoalCategory.SKILL, Priority.HIGH, GoalType.LONG_TERM)),
+            Triple("Complete AWS Certification", "Pass AWS Cloud Practitioner exam", Triple(GoalCategory.CAREER, Priority.HIGH, GoalType.SHORT_TERM)),
+            Triple("Improve Public Speaking", "Join Toastmasters and give 5 speeches", Triple(GoalCategory.PERSONAL, Priority.MEDIUM, GoalType.LONG_TERM)),
+            Triple("Network with 5 professionals", "Connect with industry professionals on LinkedIn", Triple(GoalCategory.CAREER, Priority.MEDIUM, GoalType.SHORT_TERM)),
+            Triple("Read 12 books this year", "Read one book per month to expand knowledge", Triple(GoalCategory.EDUCATION, Priority.MEDIUM, GoalType.YEARLY)),
+            Triple("Complete a side project", "Build and deploy a personal web application", Triple(GoalCategory.SKILL, Priority.HIGH, GoalType.LONG_TERM)),
+            Triple("Learn a new language", "Achieve conversational level in Spanish", Triple(GoalCategory.EDUCATION, Priority.LOW, GoalType.LONG_TERM)),
+            Triple("Save $5000 for emergency fund", "Build financial security with emergency savings", Triple(GoalCategory.FINANCIAL, Priority.HIGH, GoalType.LONG_TERM))
         )
-        
+
         goals.forEach { (title, description, categoryPriorityType) ->
             val (category, priority, type) = categoryPriorityType
             val targetDate = when (type) {
-                GoalType.SHORT_TERM -> System.currentTimeMillis() + (30L * 24 * 60 * 60 * 1000) // 30 days
-                GoalType.LONG_TERM -> System.currentTimeMillis() + (180L * 24 * 60 * 60 * 1000) // 6 months
-                GoalType.YEARLY -> System.currentTimeMillis() + (365L * 24 * 60 * 60 * 1000) // 1 year
-                else -> System.currentTimeMillis() + (90L * 24 * 60 * 60 * 1000) // 3 months
+                GoalType.SHORT_TERM -> System.currentTimeMillis() + (30L * 24 * 60 * 60 * 1000)
+                GoalType.LONG_TERM -> System.currentTimeMillis() + (180L * 24 * 60 * 60 * 1000)
+                GoalType.YEARLY -> System.currentTimeMillis() + (365L * 24 * 60 * 60 * 1000)
+                else -> System.currentTimeMillis() + (90L * 24 * 60 * 60 * 1000)
             }
-            
+
             goalRepository.createGoal(
                 userId = userId,
                 title = title,
@@ -65,31 +62,24 @@ class DataSeedingService @Inject constructor(
             )
         }
     }
-    
+
     private suspend fun createSampleHabits(userId: String) {
         val habits = listOf(
-            // Health & Wellness
-            Triple("Morning Exercise", "30 minutes of physical activity", HabitCategory.HEALTH to HabitFrequency.DAILY to HabitDifficulty.MEDIUM),
-            Triple("Drink 8 glasses of water", "Stay hydrated throughout the day", HabitCategory.HEALTH to HabitFrequency.DAILY to HabitDifficulty.EASY),
-            Triple("Meditate", "10 minutes of mindfulness meditation", HabitCategory.WELLNESS to HabitFrequency.DAILY to HabitDifficulty.MEDIUM),
-            
-            // Productivity
-            Triple("Daily Planning", "Plan the day every morning", HabitCategory.PRODUCTIVITY to HabitFrequency.DAILY to HabitDifficulty.EASY),
-            Triple("Read for 30 minutes", "Read technical or personal development books", HabitCategory.LEARNING to HabitFrequency.DAILY to HabitDifficulty.EASY),
-            Triple("Code Practice", "Practice coding for at least 1 hour", HabitCategory.CAREER to HabitFrequency.DAILY to HabitDifficulty.HARD),
-            
-            // Personal Development
-            Triple("Gratitude Journal", "Write down 3 things you're grateful for", HabitCategory.WELLNESS to HabitFrequency.DAILY to HabitDifficulty.EASY),
-            Triple("Language Practice", "Practice Spanish for 20 minutes", HabitCategory.LEARNING to HabitFrequency.DAILY to HabitDifficulty.MEDIUM),
-            
-            // Weekly habits
-            Triple("Weekly Review", "Review goals and progress weekly", HabitCategory.PRODUCTIVITY to HabitFrequency.WEEKLY to HabitDifficulty.MEDIUM),
-            Triple("Networking", "Connect with one professional per week", HabitCategory.CAREER to HabitFrequency.WEEKLY to HabitDifficulty.MEDIUM)
+            Triple("Morning Exercise", "30 minutes of physical activity", Triple(HabitCategory.HEALTH, HabitFrequency.DAILY, HabitDifficulty.MEDIUM)),
+            Triple("Drink 8 glasses of water", "Stay hydrated throughout the day", Triple(HabitCategory.HEALTH, HabitFrequency.DAILY, HabitDifficulty.EASY)),
+            Triple("Meditate", "10 minutes of mindfulness meditation", Triple(HabitCategory.WELLNESS, HabitFrequency.DAILY, HabitDifficulty.MEDIUM)),
+            Triple("Daily Planning", "Plan the day every morning", Triple(HabitCategory.PRODUCTIVITY, HabitFrequency.DAILY, HabitDifficulty.EASY)),
+            Triple("Read for 30 minutes", "Read technical or personal development books", Triple(HabitCategory.LEARNING, HabitFrequency.DAILY, HabitDifficulty.EASY)),
+            Triple("Code Practice", "Practice coding for at least 1 hour", Triple(HabitCategory.CAREER, HabitFrequency.DAILY, HabitDifficulty.HARD)),
+            Triple("Gratitude Journal", "Write down 3 things you're grateful for", Triple(HabitCategory.WELLNESS, HabitFrequency.DAILY, HabitDifficulty.EASY)),
+            Triple("Language Practice", "Practice Spanish for 20 minutes", Triple(HabitCategory.LEARNING, HabitFrequency.DAILY, HabitDifficulty.MEDIUM)),
+            Triple("Weekly Review", "Review goals and progress weekly", Triple(HabitCategory.PRODUCTIVITY, HabitFrequency.WEEKLY, HabitDifficulty.MEDIUM)),
+            Triple("Networking", "Connect with one professional per week", Triple(HabitCategory.CAREER, HabitFrequency.WEEKLY, HabitDifficulty.MEDIUM))
         )
-        
+
         habits.forEach { (name, description, categoryFrequencyDifficulty) ->
             val (category, frequency, difficulty) = categoryFrequencyDifficulty
-            
+
             habitRepository.createHabit(
                 userId = userId,
                 name = name,

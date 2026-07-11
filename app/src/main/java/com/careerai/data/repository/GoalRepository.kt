@@ -154,23 +154,25 @@ class GoalRepository @Inject constructor(
             Result.failure(e)
         }
     }
-    
+
     suspend fun getGoalStatistics(userId: String): Result<GoalStatistics> {
         return try {
-            val totalGoals = goalDao.getActiveGoalsCount(userId)
+            val incompleteGoals = goalDao.getActiveGoalsCount(userId)
             val completedGoals = goalDao.getCompletedGoalsCount(userId)
             val averageProgress = goalDao.getAverageProgress(userId) ?: 0.0
-            
+
+            val totalGoals = incompleteGoals + completedGoals
+
             val statistics = GoalStatistics(
                 totalGoals = totalGoals,
                 completedGoals = completedGoals,
-                activeGoals = totalGoals,
+                activeGoals = incompleteGoals,
                 averageProgress = averageProgress.toInt(),
                 completionRate = if (totalGoals > 0) {
-                    (completedGoals.toFloat() / (totalGoals + completedGoals) * 100).toInt()
+                    (completedGoals.toFloat() / totalGoals * 100).toInt()
                 } else 0
             )
-            
+
             Result.success(statistics)
         } catch (e: Exception) {
             Result.failure(e)
