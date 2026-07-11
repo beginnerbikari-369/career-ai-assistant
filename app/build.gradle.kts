@@ -9,10 +9,11 @@ plugins {
 }
 
 // Load API keys from local.properties
-val localProperties = java.util.Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.inputStream().use { localProperties.load(it) }
+val localProperties = java.util.Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use(this::load)
+    }
 }
 
 android {
@@ -35,8 +36,10 @@ android {
         buildConfigField("String", "GOOGLE_CALENDAR_CLIENT_ID", "\"${localProperties.getProperty("GOOGLE_CALENDAR_CLIENT_ID", "")}\"")
         
         // Manifest placeholders
-        manifestPlaceholders["OPENAI_API_KEY"] = localProperties.getProperty("OPENAI_API_KEY", "")
-        manifestPlaceholders["GOOGLE_CALENDAR_CLIENT_ID"] = localProperties.getProperty("GOOGLE_CALENDAR_CLIENT_ID", "")
+        manifestPlaceholders.putAll(mapOf(
+            "OPENAI_API_KEY" to localProperties.getProperty("OPENAI_API_KEY", ""),
+            "GOOGLE_CALENDAR_CLIENT_ID" to localProperties.getProperty("GOOGLE_CALENDAR_CLIENT_ID", "")
+        ))
     }
 
     buildTypes {

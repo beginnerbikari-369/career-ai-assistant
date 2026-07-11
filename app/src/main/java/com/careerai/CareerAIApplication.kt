@@ -1,7 +1,6 @@
 package com.careerai
 
 import android.app.Application
-import androidx.lifecycle.lifecycleScope
 import com.careerai.data.api.ApiKeyManager
 import com.careerai.data.notifications.SmartNotificationService
 import com.careerai.data.seeding.DataSeedingService

@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.*
-import com.careerai.R
 import com.careerai.data.analysis.PersonalizedAnalysisService
 import com.careerai.data.repository.GoalRepository
 import com.careerai.data.repository.HabitRepository
@@ -284,7 +283,7 @@ class SmartNotificationService @Inject constructor(
         )
         
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle(title)
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
@@ -294,7 +293,7 @@ class SmartNotificationService @Inject constructor(
         
         actionText?.let { text ->
             builder.addAction(
-                R.drawable.ic_check,
+                android.R.drawable.ic_menu_agenda,
                 text,
                 pendingIntent
             )
